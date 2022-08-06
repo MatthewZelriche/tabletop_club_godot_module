@@ -230,8 +230,12 @@ Error TabletopImporter::_import_resource(Ref<ResourceImporter> p_importer, const
     p_importer->get_import_options(&opts);
 
     for (List<ResourceImporter::ImportOption>::Element *E = opts.front(); E; E = E->next()) {
+        print_line(E->get().option.name);
         params[E->get().option.name] = E->get().default_value;
     }
+
+    // Qodot expects textures to be repeating by default
+    params["flags/repeat"] = 1;
 
     // The location where the .stex file will be located.
     String file_import_path = dir->get_current_dir() + "/" + p_path.get_file() + "-" + p_path.md5_text();
